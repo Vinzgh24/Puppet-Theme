@@ -6,11 +6,12 @@
         <!-- SNS Link -->
         {{ partial "sns-links.html" (dict "center" true "social" .Site.Params.social ) }}
         <p class="copyright text-muted">
-        {{- if site.Copyright }}
+          Made in ❤️ by  <a href="https://t.me/synerize" target="_blank">Levi</a>
+        <!-- {{- if site.Copyright }}
           {{ site.Copyright | markdownify }}
         {{- else }}
           Copyright &copy; {{ .Site.Title }} {{ now.Format "2006" }}
-        {{- end }}  
+        {{- end }}  -->
           <br>
           Powered by <a href="https://gohugo.io">Hugo</a>
         </p>
@@ -33,8 +34,8 @@
 <script src="{{ $searchJs.RelPermalink }}"></script>
 
 
-{{ if eq .Type "archive" }}
-{{ $archiveJS := resources.Get "js/archive.js" | minify | fingerprint }}
+{{ if eq .Type "list" }}
+{{ $archiveJS := resources.Get "js/list.js" | minify | fingerprint }}
 <script src='{{ $archiveJS.RelPermalink }}'></script>
 {{ end }}
 

@@ -1,0 +1,9 @@
+{{ define "container" }}
+
+<div class="post-container" style="text-align:center;">
+  {{ .Content }}
+</div>
+
+{{ partial "comments.html" . }}
+
+{{ end }}
