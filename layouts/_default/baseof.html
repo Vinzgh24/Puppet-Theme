@@ -67,7 +67,7 @@
   <link rel="shortcut icon" href="{{ "favicon.ico" | relURL }}" type="image/x-icon">
   <link rel="icon" href="{{ "logo.svg" | relURL }}" sizes="any" type="image/svg+xml" />
 {{ end }}
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap-grid.min.css" integrity="sha512-2cWcZ9cbPMZFm2inlFOhwsBVbNMmNxKBtVXqL8OY9tXCZahhnIfXMxPCzpKqiHF2I2mOiNHNXEDUDglwd+4uYw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <!-- hack iOS CSS :active style -->
@@ -97,6 +97,11 @@
   {{ block "main" . }}
 
   <!-- Main Content -->
+<div class="alert alert-success" style="margin-top:15px;" role="alert">
+  Situs ini dirancang khusus untuk menonton film melalui aplikasi Rave, untuk memberikan pengalaman terbaik disarankan menggunakan aplikasi Rave untuk menonton film. Untuk panduan tentang cara memutar video melalui Rave, silahkan click <a href="https://levi-storage.vercel.app/Tutorial/" target="_blank" style="color:#8989ed; text-decoration: underline;">disini</a>
+  
+
+</div>
   <div class="container">
     <div class="row">
       {{ if eq .Site.Params.sidebar.enable false }}
