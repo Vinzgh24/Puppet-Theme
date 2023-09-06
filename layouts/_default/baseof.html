@@ -68,11 +68,105 @@
   <link rel="icon" href="{{ "logo.svg" | relURL }}" sizes="any" type="image/svg+xml" />
 {{ end }}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap-grid.min.css" integrity="sha512-2cWcZ9cbPMZFm2inlFOhwsBVbNMmNxKBtVXqL8OY9tXCZahhnIfXMxPCzpKqiHF2I2mOiNHNXEDUDglwd+4uYw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <!-- hack iOS CSS :active style -->
 
 <body ontouchstart="">
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Web ini sudah tidak update!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="modal-message">Web ini sudah tidak update, silahkan pergi menuju web baru untuk mendapatkan update.</p>
+                <p id="countdown" style="display: none;">Anda akan diarahkan menuju web <span id="redirect-url" style="text-decoration: underline;">https://raveflix.netlify.app</span> dalam <span id="countdown-value">7</span> detik.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="close-button" style="outline: none">Cancel</button>
+                <button type="button" class="btn btn-primary" id="go-to-web-button" style="outline: none;">Go To Web</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to open the modal on page load and refresh -->
+<script>
+    var countdownValue = 7; // Set the initial countdown value
+    var countdownInterval; // Variable to store the countdown interval
+    var isRedirecting = false; // Flag to track if redirection is in progress
+
+    function openModal() {
+        $('#exampleModalCenter').modal('show');
+    }
+
+    // Open the modal when the page loads
+    $(document).ready(function () {
+        openModal();
+
+        // Set a 10-second interval to reopen the modal if the page is refreshed
+        setInterval(function () {
+            openModal();
+        }, 10000);
+    });
+
+    // Countdown function
+    function startCountdown() {
+        countdownInterval = setInterval(function () {
+            countdownValue--;
+            $('#countdown-value').text(countdownValue);
+
+            if (countdownValue === 0) {
+                clearInterval(countdownInterval);
+                if (!isRedirecting) {
+                    redirectToNewWeb();
+                }
+            }
+        }, 1000);
+    }
+
+    // Redirect to the new web
+    function redirectToNewWeb() {
+        isRedirecting = true;
+        var redirectUrl = $('#redirect-url').text();
+        window.location.href = redirectUrl;
+    }
+
+    // Handle the "Go To Web" button click
+    $('#go-to-web-button').on('click', function () {
+        $('#modal-message').hide();
+        $('#countdown').show();
+        startCountdown();
+        $('#go-to-web-button').prop('disabled', true);
+    });
+
+    // Handle the "Close" button click
+    $('#close-button').on('click', function () {
+        // Cancel the countdown and reset the modal
+        clearInterval(countdownInterval);
+        $('#countdown-value').text(5); // Reset countdown value
+        $('#modal-message').show();
+        $('#countdown').hide();
+        $('#go-to-web-button').prop('disabled', false);
+
+        // Check if redirection is in progress and cancel it
+        if (isRedirecting) {
+            isRedirecting = false;
+            // Optionally, you can add additional logic here to handle redirection cancellation if needed.
+        }
+        $('#exampleModalCenter').modal('hide'); // Close the modal
+    });
+</script>
+
+   
+</script>
+
   {{- $header_img := .Param "header_img" -}}
   {{- if .IsHome -}}
   {{ $header_img = .Site.Params.img_home }}
@@ -97,11 +191,6 @@
   {{ block "main" . }}
 
   <!-- Main Content -->
-<div class="alert alert-success" style="margin-top:15px;" role="alert">
-  Situs ini dirancang khusus untuk menonton film melalui aplikasi Rave, untuk memberikan pengalaman terbaik disarankan menggunakan aplikasi Rave untuk menonton film. Untuk panduan tentang cara memutar video melalui Rave, silahkan click <a href="https://levi-storage.vercel.app/Tutorial/" target="_blank" style="color:#8989ed; text-decoration: underline;">disini</a>
-  
-
-</div>
   <div class="container">
     <div class="row">
       {{ if eq .Site.Params.sidebar.enable false }}
